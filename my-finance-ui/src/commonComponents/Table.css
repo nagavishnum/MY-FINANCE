@@ -1,0 +1,69 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    table-layout: fixed; /* Ensures equal width for all columns */
+  }
+  
+  th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+    word-wrap: break-word;
+    overflow: hidden;
+  }
+  
+  th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  
+  button {
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    background-color: #007bff; /* Primary blue */
+    color: white;
+    font-weight: 600;
+    width: 70px;
+    height: 35px;
+    transition: background 0.3s ease, transform 0.2s ease;
+    outline: none;
+  }
+  
+  button:hover {
+    opacity: 0.8;
+  }
+  
+  
+  /* Ensure equal column width */
+  thead th,
+  tbody td {
+    width: calc(100% / var(--column-count)); /* Dynamically distribute width */
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+  
+    th, td {
+      padding: 8px;
+      font-size: 12px;
+    }
+  
+    button {
+      font-size: 12px;
+      padding: 6px 12px;
+    }
+  }
+  

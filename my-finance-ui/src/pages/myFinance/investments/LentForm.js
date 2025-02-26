@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { JWT_SECRET, userId } from "../../../constants/constants";
+import { useCallback, useEffect, useState } from "react";
+import { AddData, UpdateData } from "../api/Api";
 
 const LentForm = ({ type, handleModal, getData, actionsData, route }) => {
     const [formData, setFormData] = useState({
@@ -7,7 +7,7 @@ const LentForm = ({ type, handleModal, getData, actionsData, route }) => {
         interestRate: 0,
         intrestDue: 0,
         totalAmountDue: 0,
-        amountDue:0,
+        amountDue: 0,
         intrestCycle: "monthly",
         lentDate: "",
         dueDate: "",
@@ -45,14 +45,14 @@ const LentForm = ({ type, handleModal, getData, actionsData, route }) => {
     const handleChange = (e) => {
         setErrorMsg("");
         const { name, value, type } = e.target;
-    
+
         let newValue = value;
-    
+
         // Convert to a number for numeric fields
         if (type === "number") {
             newValue = value === "" ? "" : Number(value);
         }
-    
+
         if (name.startsWith("recipient.")) {
             const field = name.split(".")[1];
             setFormData((prev) => ({
@@ -72,11 +72,9 @@ const LentForm = ({ type, handleModal, getData, actionsData, route }) => {
             }));
         }
     };
-    
 
-    // Calculate Interest
-    const calculateInterest = () => {
-        const { amountLent, interestRate, intrestCycle, lentDate, intrestPaid ,amountPaid, amountDue} = formData;
+    const calculateInterest = useCallback(() => {
+        const { amountLent, interestRate, intrestCycle, lentDate, intrestPaid, amountPaid, amountDue } = formData;
         if (!amountLent || !interestRate || !lentDate) return;
 
         const now = new Date();
@@ -101,12 +99,12 @@ const LentForm = ({ type, handleModal, getData, actionsData, route }) => {
             totalMonths: diffInMonths,
             amountDue: amountLent - amountPaid
         }));
-    };
+    },[formData]);
 
 
     useEffect(() => {
         calculateInterest();
-    }, [formData.amountLent, formData.interestRate, formData.lentDate, formData.intrestPaid]);
+    }, [formData.amountLent, formData.interestRate, formData.lentDate, formData.intrestPaid, calculateInterest]);
 
     // Form Validation
     const handleValidation = () => {
@@ -128,18 +126,13 @@ const LentForm = ({ type, handleModal, getData, actionsData, route }) => {
                 lentDate: formData.lentDate ? new Date(formData.lentDate).toISOString() : "",
                 dueDate: formData.dueDate ? new Date(formData.dueDate).toISOString() : "",
             };
-            const url = type === "edit"
-                ? `http://localhost:5000/api/finance/lent/${userId}/${formData.id}`
-                : `http://localhost:5000/api/finance/lent/${userId}`;
+            let res;
+            if (type === "edit") {
+                res = await UpdateData("lent", formData.id, formattedData);
 
-            const res = await fetch(url, {
-                method: type === "edit" ? "PUT" : "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${JWT_SECRET}`,
-                },
-                body: JSON.stringify(formattedData),
-            });
+            } else {
+                res = await AddData("lent", formattedData);
+            }
 
             if ([200, 201].includes(res.status)) {
                 getData(route);
@@ -157,20 +150,20 @@ const LentForm = ({ type, handleModal, getData, actionsData, route }) => {
             <div className="formFields">
                 {errorMsg && <p>{errorMsg}</p>}
 
-<label>Amount Lent</label>
+                <label>Amount Lent</label>
                 <input name="amountLent" value={formData.amountLent} onChange={handleChange} placeholder="Amount Lent" type="number" />
                 <label>Intrest Rate %</label>
                 <input name="interestRate" value={formData.interestRate} onChange={handleChange} placeholder="Interest Rate (%)" type="number" />
                 <label>Intrest Paid</label>
                 <input name="intrestPaid" value={formData.intrestPaid} onChange={handleChange} placeholder="Intrest Paid" type="number" />
-{           type === "edit" && <>    <label>Amount Paid</label>
-                <input name="amountPaid" value={formData.amountPaid} onChange={handleChange} placeholder="Amount Paid" type="number" />
-                </> 
-}
+                {type === "edit" && <>    <label>Amount Paid</label>
+                    <input name="amountPaid" value={formData.amountPaid} onChange={handleChange} placeholder="Amount Paid" type="number" />
+                </>
+                }
                 <select name="intrestCycle" value={formData.intrestCycle} onChange={handleChange}>
                     <option value="monthly">Monthly</option>
                 </select>
-                {           type === "add" && <>      <input
+                {type === "add" && <>      <input
                     name="lentDate"
                     value={formData.lentDate}
                     onChange={handleChange}
@@ -179,8 +172,8 @@ const LentForm = ({ type, handleModal, getData, actionsData, route }) => {
                     max={new Date().toISOString().split("T")[0]}
                     onKeyDown={(e) => e.preventDefault()}
                 />
-                           </> 
-                        }
+                </>
+                }
                 <input name="dueDate" value={formData.dueDate} onChange={handleChange} placeholder="Due Date" type="date" />
                 <input name="recipient.name" value={formData.recipient.name} onChange={handleChange} placeholder="Recipient Name" type="text" />
                 <input name="recipient.phone" value={formData.recipient.phone} onChange={handleChange} placeholder="Phone" type="text" />

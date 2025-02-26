@@ -1,23 +1,23 @@
 import { useEffect, useState } from "react";
-import { JWT_SECRET, userId } from "../../../constants/constants";
+import { AddData, UpdateData } from "../api/Api";
 
-const LoansForm = ({type,handleModal, getData, actionsData, route}) => {
+const LoansForm = ({ type, handleModal, getData, actionsData, route }) => {
     const [formData, setFormData] = useState({
         loanAmount: "",
-        interestPerYear:"",
-        whereLoanTaken:"",
+        interestPerYear: "",
+        whereLoanTaken: "",
     });
     const [errorMsg, setErrorMsg] = useState("");
-    const { loanAmount, interestPerYear, whereLoanTaken} = formData;
+    const { loanAmount, interestPerYear, whereLoanTaken } = formData;
 
-    useEffect(()=> {
-        if(type ==="edit" || type === "delete"){
-            setFormData((prev)=> ({
+    useEffect(() => {
+        if (type === "edit" || type === "delete") {
+            setFormData((prev) => ({
                 ...prev,
                 ...actionsData
             }));
         }
-    },[type,actionsData]);
+    }, [type, actionsData]);
     console.log(formData)
     const handleChange = (e) => {
         setErrorMsg("");
@@ -31,68 +31,55 @@ const LoansForm = ({type,handleModal, getData, actionsData, route}) => {
     };
 
     const handleValidation = () => {
-        if(whereLoanTaken === "" ){
+        if (whereLoanTaken === "") {
             setErrorMsg("Pls enter All Fields")
             return false
-        } else if (interestPerYear <=0) {
+        } else if (interestPerYear <= 0) {
             setErrorMsg("Pls enter Valid Intrest")
             return false
-        } else if( loanAmount <=0) {
+        } else if (loanAmount <= 0) {
             setErrorMsg("Pls enter Valid Amount")
             return false
         } else {
             return true
         }
     }
- const handleSubmit = async (e) => {
-    e.preventDefault();
-    const validation = handleValidation();
-    if(validation) {
-        setErrorMsg("");
-        try {
-            let res;
-            if(type ==="edit"){
-                 res = await fetch(`http://localhost:5000/api/finance/loan/${userId}/${formData.id}`, {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${JWT_SECRET}` // If authentication is needed
-                    },
-                    body:JSON.stringify(formData)
-                });
-            } else {
-                 res = await fetch(`http://localhost:5000/api/finance/loan/${userId}`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${JWT_SECRET}` // If authentication is needed
-                    },
-                    body:JSON.stringify(formData)
-                });
-            }
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const validation = handleValidation();
+        if (validation) {
+            setErrorMsg("");
+            try {
+                let res;
+                if (type === "edit") {
+                    res = await UpdateData("loan", formData.id, formData);
+                } else {
+                    res = await AddData("loan", formData);
 
-         if([200,201].includes(res.status)){
-            getData(route);
-            handleModal();
-         }
-          else {
-            setErrorMsg(res.message ?? "Something went wrong")
-          }
-        } catch(e) {
-            console.log(e);
+                }
+
+                if ([200, 201].includes(res.status)) {
+                    getData(route);
+                    handleModal();
+                }
+                else {
+                    setErrorMsg(res.message ?? "Something went wrong")
+                }
+            } catch (e) {
+                console.log(e);
+            }
+        } else {
+            setErrorMsg("Pls Enter All Fields & Valid Data");
         }
-    } else {
-        setErrorMsg("Pls Enter All Fields & Valid Data");
     }
- }
     return (
         <form>
             <div className="formFields">
                 {errorMsg && <p>{errorMsg}</p>}
-            <input name="loanAmount" value={loanAmount} onChange={handleChange} placeholder="Amount" type="number" autoFocus/>
-            <input name="interestPerYear" value={interestPerYear} onChange={handleChange} placeholder="Intrest" type="number"/>
-            <input name="whereLoanTaken" value={whereLoanTaken} onChange={handleChange} placeholder="Loan took from" type="text"/>
-            <button onClick={handleSubmit}>Submit</button>
+                <input name="loanAmount" value={loanAmount} onChange={handleChange} placeholder="Amount" type="number" autoFocus />
+                <input name="interestPerYear" value={interestPerYear} onChange={handleChange} placeholder="Intrest" type="number" />
+                <input name="whereLoanTaken" value={whereLoanTaken} onChange={handleChange} placeholder="Loan took from" type="text" />
+                <button onClick={handleSubmit}>Submit</button>
             </div>
         </form>
     )

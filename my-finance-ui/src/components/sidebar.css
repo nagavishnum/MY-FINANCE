@@ -1,7 +1,7 @@
 .sidebar {
     display: flex;
     flex-direction: column;
-    gap: 15px;  /* Adjusted for better spacing */
+    gap: 1500px;  /* Adjusted for better spacing */
     padding: 10px;
 }
 
@@ -14,8 +14,22 @@
     background-color: #f0f0f0;
 }
 
+.sidebar-item {
+    padding: 12px;
+    margin: 10px 0;  /* Added margin to create space between routes */
+    border-radius: 5px;
+    transition: background 0.3s ease;
+  }
+
 .sidebar a {
     text-decoration: none;
     color: #333;
     font-weight: 500;
 }
+.sidebar-item.active {
+    background: #007bff;
+  }
+  
+  .sidebar-item.active a {
+    color: white;
+  }
