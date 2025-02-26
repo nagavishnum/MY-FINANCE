@@ -1,0 +1,10 @@
+.investment{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.formFields {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}

@@ -9,9 +9,9 @@ const Layout = () => {
       <Sidebar />
       <div>
       <main className="content">
-        <Outlet /> {/* Render sub-category content here */}
+        <Outlet />
       </main>
-      </div> ̰
+      </div>
     </div>
   );
 };

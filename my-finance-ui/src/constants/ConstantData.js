@@ -5,7 +5,7 @@ export const sidebarRoutes = [
     },
     {
         name:"Investments",
-        key:"investments",
+        key:"investment",
     },
     {
         name:"Savings",
