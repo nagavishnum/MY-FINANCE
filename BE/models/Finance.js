@@ -2,42 +2,55 @@ const mongoose = require('mongoose');
 
 const financeSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  totalInvested: { type: Number, default: 0 },
-  totalLoan: { type: Number, default: 0 },
-  totalSavings: { type: Number, default: 0 },
-  totalAssetsValue: { type: Number, default: 0 },
-  totalLent: { type: Number, default: 0 },
+  totalInvested: { type: Number, default: 0, min: 0 },
+  totalLoan: { type: Number, default: 0, min: 0 },
+  totalSavings: { type: Number, default: 0, min: 0 },
+  totalAssetsValue: { type: Number, default: 0, min: 0 },
+  totalLent: { type: Number, default: 0, min: 0 },
   categories: {
     investment: [{
+      id: { type: mongoose.Schema.Types.ObjectId, auto: true },  
       whereInvested: { type: String },
-      amountInvested: { type: Number, default: 0 },
-      returnPercent: { type: Number, default: 0 },
-      totalReturn: { type: Number, default: 0 },
+      amountInvested: { type: Number, default: 0, min: 0 },
+      returnPercent: { type: Number, default: 0, min: 0 },
+      totalReturn: { type: Number, default: 0, min: 0 },
     }],
     loan: [{
-      loanAmount: { type: Number, default: 0 },
-      interestPerYear: { type: Number, default: 0 },
+      id: { type: mongoose.Schema.Types.ObjectId, auto: true },
+      loanAmount: { type: Number, default: 0, min: 0 },
+      interestPerYear: { type: Number, default: 0, min: 0 },
       whereLoanTaken: { type: String },
-      totalRepayment: { type: Number, default: 0 },
     }],
     savings: [{
+      id: { type: mongoose.Schema.Types.ObjectId, auto: true },
       savingsLocation: { type: String },
-      amountSaved: { type: Number, default: 0 },
+      amountSaved: { type: Number, default: 0, min: 0 },
     }],
     assets: [{
+      id: { type: mongoose.Schema.Types.ObjectId, auto: true },
       assetName: { type: String },
-      currentValue: { type: Number, default: 0 },
+      currentValue: { type: Number, default: 0, min: 0 },
     }],
     lent: [{
-      amountLent: { type: Number, default: 0 },
-      recipient: { type: mongoose.Schema.Types.ObjectId, ref: 'Recipient' },
+      id: { type: mongoose.Schema.Types.ObjectId, auto: true },
+      amountLent: { type: Number, default: 0, min: 0 },
+      interestRate: { type: Number, default: 0, min: 0 },
+      totalAmountDue: { type: Number, default: 0, min: 0 },
+      recipient: {
+        name: { type: String, required: true },
+        phone: { type: String, required: true },
+        email: { type: String, default: "" },
+        address: { type: String, default: "" },
+        aadhaar: { type: Number }
+      },
+      collateral: {
+        assetType: { type: String },
+        estimatedValue: { type: Number, default: 0, min: 0 },
+        description: { type: String, default: "" }
+      },
       promissoryNote: { type: Boolean, default: false },
-      collateral: { type: mongoose.Schema.Types.ObjectId, ref: 'Collateral' },
-      interestRate: { type: Number, default: 0 },
-      totalAmountDue: { type: Number, default: 0 },
     }]
   },
-  createdAt: { type: Date, default: Date.now }
 });
 
 module.exports = mongoose.model('Finance', financeSchema);

@@ -1,0 +1,22 @@
+export const sidebarRoutes = [
+    {
+        name:"Assets",
+        key:"assets",
+    },
+    {
+        name:"Investments",
+        key:"investments",
+    },
+    {
+        name:"Savings",
+        key:"savings",
+    },
+    {
+        name:"Lent",
+        key:"lent",
+    },
+    {
+        name:"Loans",
+        key:"loan",
+    }
+]
