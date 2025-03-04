@@ -22,7 +22,6 @@ const AppRoutes = () => {
             <Route path="savings" element={<Investments />} />
             <Route path="loan" element={<Investments />} />
             <Route path="assets" element={<Investments />} />
-            <Route path="lent" element={<Investments />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

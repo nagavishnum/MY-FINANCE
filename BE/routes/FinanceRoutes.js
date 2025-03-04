@@ -10,7 +10,7 @@ const getOrCreateFinance = async (userId) => {
   if (!finance) {
     finance = new Finance({ 
       userId: objectId, 
-      categories: { investment: [], loan: [], savings: [], assets: [], lent: [] } 
+      categories: { investment: [], loan: [], savings: [], assets: [] } 
     });
     await finance.save();
   }
@@ -24,7 +24,7 @@ router.post('/:category/:userId', async (req, res) => {
     const objectId = new mongoose.Types.ObjectId(userId);
     const data = req.body;
 
-    if (!['investment', 'loan', 'savings', 'assets', 'lent'].includes(category)) {
+    if (!['investment', 'loan', 'savings', 'assets'].includes(category)) {
       return res.status(400).json({ message: "Invalid category or missing userId!" });
     }
 
@@ -44,7 +44,7 @@ router.get('/:category/:userId', async (req, res) => {
     const { category, userId } = req.params;
     const objectId = new mongoose.Types.ObjectId(userId);
 
-    if (!['investment', 'loan', 'savings', 'assets', 'lent'].includes(category)) {
+    if (!['investment', 'loan', 'savings', 'assets'].includes(category)) {
       return res.status(400).json({ message: "Invalid category!" });
     }
 
@@ -67,7 +67,7 @@ router.put('/:category/:userId/:entryId', async (req, res) => {
     const updateData = req.body;
 
     // Validate category
-    if (!['investment', 'loan', 'savings', 'assets', 'lent'].includes(category)) {
+    if (!['investment', 'loan', 'savings', 'assets'].includes(category)) {
       return res.status(400).json({ message: "Invalid category!" });
     }
 
@@ -111,7 +111,7 @@ router.delete('/:category/:userId/:entryId', async (req, res) => {
     const { category, userId, entryId } = req.params;
     const objectId = new mongoose.Types.ObjectId(userId);
 
-    if (!['investment', 'loan', 'savings', 'assets', 'lent'].includes(category)) {
+    if (!['investment', 'loan', 'savings', 'assets'].includes(category)) {
       return res.status(400).json({ message: "Invalid category!" });
     }
 

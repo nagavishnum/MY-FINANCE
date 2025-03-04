@@ -12,10 +12,6 @@ export const sidebarRoutes = [
         key:"savings",
     },
     {
-        name:"Lent",
-        key:"lent",
-    },
-    {
         name:"Loans",
         key:"loan",
     }

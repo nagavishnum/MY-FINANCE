@@ -12,14 +12,14 @@ const InvestmentForm = ({ type, handleModal, getData, actionsData, route }) => {
     const { whereInvested, amountInvested, returnPercent } = formData;
 
     useEffect(() => {
-        if (type === "edit" || type === "delete") {
+        if (type === "edit") {
             setFormData((prev) => ({
                 ...prev,
                 ...actionsData
             }));
         }
     }, [type, actionsData]);
-    console.log(formData)
+
     const handleChange = (e) => {
         setErrorMsg("");
         const { name, value } = e.target;
@@ -59,7 +59,7 @@ const InvestmentForm = ({ type, handleModal, getData, actionsData, route }) => {
                     res = await AddData("investment", formData);
                 }
 
-                if ([200, 201].includes(res.status)) {
+                if (res) {
                     getData(route);
                     handleModal();
                 }
@@ -79,10 +79,10 @@ const InvestmentForm = ({ type, handleModal, getData, actionsData, route }) => {
                 {errorMsg && <p>{errorMsg}</p>}
                 <input name="whereInvested" value={whereInvested} onChange={handleChange} placeholder="Invested At" type="text" autoFocus />
                 <input name="amountInvested" value={amountInvested} onChange={handleChange} placeholder="Amount Invested" type="number" />
-                <input name="returnPercent" value={returnPercent} onChange={handleChange} placeholder="Expected Return" type="number" />
-                <button onClick={handleSubmit}>Submit</button>
-            </div>
-        </form>
+                <input name="returnPercent" value={returnPercent} onChange={handleChange} placeholder="Expected Return (%)" type="number" />
+                <button type="submit" onClick={handleSubmit}>Submit</button>
+                </div>
+            </form>
     )
 }
 

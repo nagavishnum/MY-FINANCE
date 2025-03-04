@@ -10,7 +10,7 @@ const AssetsForm = ({ type, handleModal, getData, actionsData, route }) => {
     const { assetName, currentValue } = formData;
 
     useEffect(() => {
-        if (type === "edit" || type === "delete") {
+        if (type === "edit") {
             setFormData((prev) => ({
                 ...prev,
                 ...actionsData
@@ -18,7 +18,6 @@ const AssetsForm = ({ type, handleModal, getData, actionsData, route }) => {
         }
     }, [type, actionsData]);
 
-    console.log(formData)
     const handleChange = (e) => {
         setErrorMsg("");
         const { name, value } = e.target;
@@ -51,8 +50,7 @@ const AssetsForm = ({ type, handleModal, getData, actionsData, route }) => {
                 } else {
                     res = await AddData("assets", formData);
                 }
-
-                if ([200, 201].includes(res.status)) {
+                if (res) {
                     getData(route);
                     handleModal();
                 }

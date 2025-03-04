@@ -3,6 +3,7 @@
     flex-direction: column;
     gap: 1500px;  /* Adjusted for better spacing */
     padding: 10px;
+    background-color: #f4f4f4;
 }
 
 .sidebar nav div {
@@ -11,7 +12,7 @@
 }
 
 .sidebar nav div:hover {
-    background-color: #f0f0f0;
+    background-color: #cecbcb;
 }
 
 .sidebar-item {

@@ -1,6 +1,5 @@
 import AssetsForm from "../pages/myFinance/investments/AssetsForm";
 import InvestmentForm from "../pages/myFinance/investments/InvestmentForm";
-import LentForm from "../pages/myFinance/investments/LentForm";
 import LoansForm from "../pages/myFinance/investments/LoansForm";
 import SavingsForm from "../pages/myFinance/investments/SavingsForm";
 
@@ -33,10 +32,5 @@ export const componentMap = {
       component: LoansForm, 
       columns: loanColumns, 
       keyMap: ["whereLoanTaken","loanAmount", "interestPerYear"]
-    },
-    lent: { 
-      component: LentForm, 
-      columns: lentColumns, 
-      keyMap: ["recipient.name", "amountLent", "interestRate","amountPaid","intrestPaid", "intrestDue", "totalAmountDue","lentDate", "dueDate","totalMonths", "collateral.assetType", "recipient.phone","promissoryNote"]
     },
   };

@@ -10,7 +10,7 @@ const SavingsForm = ({ type, handleModal, getData, actionsData, route }) => {
     const { savingsLocation, amountSaved } = formData;
 
     useEffect(() => {
-        if (type === "edit" || type === "delete") {
+        if (type === "edit") {
             setFormData((prev) => ({
                 ...prev,
                 ...actionsData
@@ -18,7 +18,6 @@ const SavingsForm = ({ type, handleModal, getData, actionsData, route }) => {
         }
     }, [type, actionsData]);
 
-    console.log(formData)
     const handleChange = (e) => {
         setErrorMsg("");
         const { name, value } = e.target;
@@ -31,7 +30,7 @@ const SavingsForm = ({ type, handleModal, getData, actionsData, route }) => {
     };
 
     const handleValidation = () => {
-        if (savingsLocation === "" || amountSaved === "") {
+        if (savingsLocation === "" || amountSaved <=0) {
             setErrorMsg("Pls enter All Fields")
             return false
         } else {
@@ -53,7 +52,7 @@ const SavingsForm = ({ type, handleModal, getData, actionsData, route }) => {
 
                 }
 
-                if ([200, 201].includes(res.status)) {
+                if (res) {
                     getData(route);
                     handleModal();
                 }

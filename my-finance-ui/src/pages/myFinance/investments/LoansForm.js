@@ -11,14 +11,14 @@ const LoansForm = ({ type, handleModal, getData, actionsData, route }) => {
     const { loanAmount, interestPerYear, whereLoanTaken } = formData;
 
     useEffect(() => {
-        if (type === "edit" || type === "delete") {
+        if (type === "edit") {
             setFormData((prev) => ({
                 ...prev,
                 ...actionsData
             }));
         }
     }, [type, actionsData]);
-    console.log(formData)
+
     const handleChange = (e) => {
         setErrorMsg("");
         const { name, value } = e.target;
@@ -58,7 +58,7 @@ const LoansForm = ({ type, handleModal, getData, actionsData, route }) => {
 
                 }
 
-                if ([200, 201].includes(res.status)) {
+                if (res) {
                     getData(route);
                     handleModal();
                 }

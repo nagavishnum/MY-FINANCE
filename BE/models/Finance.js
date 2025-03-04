@@ -31,32 +31,6 @@ const financeSchema = new mongoose.Schema({
       assetName: { type: String },
       currentValue: { type: Number, default: 0, min: 0 },
     }],
-    lent: [{
-      id: { type: mongoose.Schema.Types.ObjectId, default: () => new mongoose.Types.ObjectId() },
-      amountLent: { type: Number, default: 0, min: 0 },
-      interestRate: { type: Number, default: 0, min: 0 },
-      intrestDue: { type: Number, default: 0 },
-      amountDue: {type: Number, default:0},
-      totalAmountDue: { type: Number, default: 0, min: 0 },
-      intrestCycle: { type: String, default: "monthly"},
-      lentDate: { type: Date},
-      totalMonths: { type: Number, default:0},
-      intrestPaid: { type: Number, default:0},
-      amountPaid: {type: Number, default:0},
-      recipient: {
-        name: { type: String, required: true },
-        phone: { type: String, required: true },
-        address: { type: String, default: "" },
-        aadhaar: { type: Number }
-      },
-      collateral: {
-        assetType: { type: String },
-        estimatedValue: { type: Number, default: 0, min: 0 },
-        description: { type: String, default: "" }
-      },
-      dueDate: { type: Date},
-      promissoryNote: { type: Boolean, default: false },
-    }]
   },
 });
 
