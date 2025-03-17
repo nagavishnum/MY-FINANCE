@@ -14,6 +14,7 @@ const financeSchema = new mongoose.Schema({
       amountInvested: { type: Number, default: 0, min: 0 },
       returnPercent: { type: Number, default: 0, min: 0 },
       totalReturn: { type: Number, default: 0, min: 0 },
+      currentValue: { type: Number, default: 0, min: 0},
     }],
     loan: [{
       id: { type: mongoose.Schema.Types.ObjectId, default: () => new mongoose.Types.ObjectId() },

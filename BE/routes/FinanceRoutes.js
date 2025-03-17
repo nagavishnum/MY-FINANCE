@@ -79,18 +79,12 @@ router.put('/:category/:userId/:entryId', async (req, res) => {
     if (!finance) {
       return res.status(404).json({ message: "Finance record not found!" });
     }
-
-    console.log("Finance Record Found:", finance);
-
     // Find the entry in the specified category
     let itemIndex = finance.categories[category].findIndex(item => item.id.toString() === entryId);
 
     if (itemIndex === -1) {
       return res.status(404).json({ message: `${category} entry not found!` });
     }
-
-    console.log("Entry Found at Index:", itemIndex);
-
     // Update the specific entry
     Object.assign(finance.categories[category][itemIndex], updateData);
 

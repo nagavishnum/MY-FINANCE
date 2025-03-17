@@ -7,9 +7,10 @@ const InvestmentForm = ({ type, handleModal, getData, actionsData, route }) => {
         amountInvested: "",
         returnPercent: "",
         totalReturn: 0,
+        currentValue: "",
     });
     const [errorMsg, setErrorMsg] = useState("");
-    const { whereInvested, amountInvested, returnPercent } = formData;
+    const { whereInvested, amountInvested, returnPercent, currentValue } = formData;
 
     useEffect(() => {
         if (type === "edit") {
@@ -80,6 +81,7 @@ const InvestmentForm = ({ type, handleModal, getData, actionsData, route }) => {
                 <input name="whereInvested" value={whereInvested} onChange={handleChange} placeholder="Invested At" type="text" autoFocus />
                 <input name="amountInvested" value={amountInvested} onChange={handleChange} placeholder="Amount Invested" type="number" />
                 <input name="returnPercent" value={returnPercent} onChange={handleChange} placeholder="Expected Return (%)" type="number" />
+                <input name="currentValue" value={currentValue} onChange={handleChange} placeholder="Current Value" type="number" />
                 <button type="submit" onClick={handleSubmit}>Submit</button>
                 </div>
             </form>

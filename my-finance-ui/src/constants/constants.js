@@ -6,7 +6,7 @@ import SavingsForm from "../pages/myFinance/investments/SavingsForm";
 export const userId = "67beb3f68180eda70b3f39d4";
 export const JWT_SECRET="your_jwt_secret_key"
 
-export const investmentColumns = ["Where Invested", "Amount Invested", "Expected Return %", "Expected Return"];
+export const investmentColumns = ["Where Invested", "Amount Invested", "Expected Return %", "Expected Return", "Current Value"];
 export const savingsColumns = ["Saved At", "Amount Saved"];
 export const assetsColumns = ["Asset", "Value"];
 export const loanColumns = ["Taken From", "Loan Amount", "Intrest"];
@@ -16,7 +16,7 @@ export const componentMap = {
     investment: { 
       component: InvestmentForm, 
       columns: investmentColumns, 
-      keyMap: ["whereInvested", "amountInvested", "returnPercent", "totalReturn"]
+      keyMap: ["whereInvested", "amountInvested", "returnPercent", "totalReturn", "currentValue"]
     },
     savings: { 
       component: SavingsForm, 
